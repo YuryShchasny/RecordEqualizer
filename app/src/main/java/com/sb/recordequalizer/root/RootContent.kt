@@ -78,7 +78,7 @@ fun RootContent(
 
         RootStore.State.Progress -> {
             keepSplashScreen(true)
-            val permissions = mutableListOf<String>(
+            val permissions = mutableListOf(
                 Manifest.permission.RECORD_AUDIO,
             )
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
