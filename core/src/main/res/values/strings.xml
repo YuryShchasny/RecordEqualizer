@@ -26,8 +26,8 @@
     <string name="bluetooth_sco">Bluetooth device</string>
     <string name="telephony">Telephony</string>
     <string name="remote_submix">Remote submix</string>
-    <string name="builtin_earpiece">Dynamic</string>
-    <string name="builtin_speaker">The system of dynamics</string>
+    <string name="builtin_earpiece">Speaker</string>
+    <string name="builtin_speaker">The system of speakers</string>
     <string name="bluetooth_a2dp">Bluetooth A2DP device</string>
     <string name="unknown">Unknown type</string>
 </resources>
