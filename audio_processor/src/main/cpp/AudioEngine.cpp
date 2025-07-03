@@ -112,7 +112,7 @@ Result AudioEngine::openStreams(bool withRecording) {
 AudioStreamBuilder *AudioEngine::setupRecordingStreamParameters(
         oboe::AudioStreamBuilder *builder, int32_t sampleRate) {
     builder->setDeviceId(mRecordingDeviceId)
-            ->setInputPreset(InputPreset::Unprocessed)
+            ->setInputPreset(InputPreset::VoiceCommunication)
             ->setDirection(oboe::Direction::Input)
             ->setSampleRate(sampleRate)
             ->setChannelCount(mChannelCount);
