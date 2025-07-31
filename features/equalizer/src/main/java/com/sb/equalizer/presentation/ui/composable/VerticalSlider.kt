@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.sb.equalizer.presentation.ui.composable
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -7,14 +9,18 @@ import androidx.compose.material3.SliderColors
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.SliderState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.layout
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Constraints
+import com.sb.core.composable.Preview
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VerticalSlider(
     value: Float,
@@ -68,4 +74,16 @@ fun VerticalSlider(
             }
             .then(modifier)
     )
+}
+
+@PreviewLightDark
+@Composable
+private fun VerticalSliderPreview() {
+    var value by remember { mutableFloatStateOf(0f) }
+    Preview {
+        VerticalSlider(
+            value = value,
+            onValueChange = { value = it }
+        )
+    }
 }

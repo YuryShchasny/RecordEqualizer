@@ -22,13 +22,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sb.core.R
+import com.sb.core.composable.Preview
 import com.sb.core.resources.AppRes
-import com.sb.core.resources.theme.ColorUiType
-import com.sb.core.resources.theme.EqualizerTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -121,10 +120,10 @@ private fun getAudioDeviceTypeString(audioDeviceType: Int): String {
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun AudioDeviceDropDownMenuPreview() {
-    EqualizerTheme(colorUiType = ColorUiType.DARK) {
+    Preview {
         AudioDeviceDropDownMenu(
             label = "Устройство вывода",
             devices = listOf(),

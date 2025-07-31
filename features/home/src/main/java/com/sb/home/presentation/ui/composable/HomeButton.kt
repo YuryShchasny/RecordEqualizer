@@ -11,18 +11,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sb.core.composable.Preview
 import com.sb.core.resources.AppRes
-import com.sb.core.resources.theme.EqualizerTheme
 
 @Composable
 fun HomeButton(
     text: String,
     onClick: () -> Unit,
-    icon: (@Composable () -> Unit)? = null,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    icon: (@Composable () -> Unit)? = null
 ) {
     ElevatedButton(
         modifier = modifier,
@@ -47,10 +47,10 @@ fun HomeButton(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun HomeButtonPreview() {
-    EqualizerTheme {
+    Preview {
         HomeButton(
             text = "Начать запись",
             onClick = {},

@@ -20,13 +20,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sb.core.R
+import com.sb.core.composable.Preview
 import com.sb.core.resources.AppRes
-import com.sb.core.resources.theme.ColorUiType
-import com.sb.core.resources.theme.EqualizerTheme
 
 @Composable
 fun CompressorEffect(
@@ -67,11 +66,11 @@ fun CompressorEffect(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun CompressorEffectPreview() {
-    EqualizerTheme(colorUiType = ColorUiType.DARK) {
-        var state by remember { mutableStateOf(false) }
+    var state by remember { mutableStateOf(false) }
+    Preview {
         CompressorEffect(
             enabled = state,
             onCheckedChanged = { state = it },

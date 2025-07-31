@@ -12,13 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sb.core.composable.Preview
 import com.sb.core.resources.AppRes
-import com.sb.core.resources.theme.ColorUiType
-import com.sb.core.resources.theme.EqualizerTheme
 
 @Composable
 fun Equalizer(
@@ -67,7 +66,7 @@ fun Equalizer(
                         modifier = Modifier.weight(1f),
                         value = frequency.second,
                         valueRange = valueRange,
-                        onValueChanged = { newValue -> onGainChanged(frequency.first, newValue) },
+                        onValueChange = { newValue -> onGainChanged(frequency.first, newValue) },
                         labelOffset = (-16).dp
                     )
                 }
@@ -97,25 +96,25 @@ fun Equalizer(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun EqualizerPreview() {
-    EqualizerTheme(colorUiType = ColorUiType.DARK) {
+    Preview {
         Equalizer(
             modifier = Modifier
                 .height(400.dp)
                 .wrapContentWidth(),
             valueRange = -10f..10f,
             frequencies = listOf(
-                32 to 10f,
-                64 to 9f,
-                128 to 8f,
-                256 to 0f,
-                512 to -1f,
-                1024 to -2f,
-                2048 to -3f,
-                4096 to -4f,
-                8192 to -5f,
+                32 to -10f,
+                64 to -8f,
+                128 to -6f,
+                256 to -4f,
+                512 to -2f,
+                1024 to 0f,
+                2048 to 2f,
+                4096 to 4f,
+                8192 to 6f,
             ),
             onGainChanged = { _, _ -> }
         )

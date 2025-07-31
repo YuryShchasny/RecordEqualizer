@@ -23,10 +23,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sb.core.R
 import com.sb.core.composable.ClickableIcon
+import com.sb.core.composable.Preview
 import com.sb.core.resources.AppRes
 import com.sb.domain.entity.Profile
 
@@ -111,5 +113,26 @@ fun ProfilesDropDownMenu(
                 }
             }
         }
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun ProfilesDropDownMenuPreview() {
+    var profiles by remember {
+        mutableStateOf(
+            (0..8).map { Profile.preview().copy(id = it.toLong(), name = "Preview $it") }
+        )
+    }
+    var selectedProfile by remember { mutableStateOf(profiles.first()) }
+    Preview(
+        modifier = Modifier.size(512.dp)
+    ) {
+        ProfilesDropDownMenu(
+            selectedProfile = selectedProfile,
+            list = profiles,
+            onSelected = { selectedProfile = it },
+            onDelete = { profiles = profiles.toMutableList().apply { remove(it) } }
+        )
     }
 }

@@ -1,6 +1,7 @@
 package com.sb.home.presentation.ui.composable
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
@@ -9,9 +10,12 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.sb.core.composable.Preview
 import com.sb.core.resources.AppRes
+import kotlin.random.Random
 
 @Composable
 fun Waveform(
@@ -68,6 +72,18 @@ fun Waveform(
             end = Offset(size.width / 2, size.height * 3 / 4),
             strokeWidth = 2.dp.toPx(),
             cap = StrokeCap.Round
+        )
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun WaveformPreview() {
+    val amplitudes = Random.nextBytes(256).map { it.toFloat() / Byte.MAX_VALUE }
+    Preview {
+        Waveform(
+            modifier = Modifier.size(512.dp),
+            amplitudes = amplitudes
         )
     }
 }

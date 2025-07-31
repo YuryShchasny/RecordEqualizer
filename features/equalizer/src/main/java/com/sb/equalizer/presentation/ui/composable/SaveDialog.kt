@@ -30,13 +30,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.sb.core.R
+import com.sb.core.composable.Preview
 import com.sb.core.resources.AppRes
-import com.sb.core.resources.theme.EqualizerTheme
 import com.sb.domain.entity.Profile
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,7 +54,6 @@ fun SaveDialog(
                 modifier = modifier,
                 color = AppRes.colors.backgroundContrast,
                 shape = RoundedCornerShape(12.dp),
-                shadowElevation = 8.dp,
             ) {
                 Column(
                     modifier = Modifier
@@ -167,10 +166,12 @@ fun SaveDialog(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun SaveDialogPreview() {
-    EqualizerTheme {
+    Preview(
+        modifier = Modifier.padding(320.dp)
+    ) {
         SaveDialog(
             profiles = listOf(),
             show = true,

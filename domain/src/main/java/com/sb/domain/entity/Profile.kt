@@ -22,4 +22,18 @@ data class Profile(
                 this.rightChannel != rightChannel ||
                 this.compressorEnabled != compressorEnabled
     }
+
+    companion object {
+        fun preview() = Profile(
+            id = 0,
+            name = "Preview",
+            gains = listOf(
+                0f,0f,0f,0f,0f,0f,0f,0f,0f,0f
+            ),
+            amplitude = 0f,
+            leftChannel = false,
+            rightChannel = true,
+            compressorEnabled = true
+        )
+    }
 }

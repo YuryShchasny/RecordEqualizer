@@ -1,7 +1,6 @@
 package com.sb.home.presentation.ui.composable
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
@@ -14,9 +13,8 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sb.core.R
+import com.sb.core.composable.Preview
 import com.sb.core.resources.AppRes
-import com.sb.core.resources.theme.ColorUiType
-import com.sb.core.resources.theme.EqualizerTheme
 
 @Composable
 fun FeedbackAlert(
@@ -64,7 +62,7 @@ fun FeedbackAlert(
 @PreviewLightDark
 @Composable
 private fun FeedbackAlertPreview() {
-    EqualizerTheme(colorUiType = if(isSystemInDarkTheme()) ColorUiType.DARK else ColorUiType.LIGHT) {
+    Preview {
         FeedbackAlert(
             onDismissRequest = {}
         )

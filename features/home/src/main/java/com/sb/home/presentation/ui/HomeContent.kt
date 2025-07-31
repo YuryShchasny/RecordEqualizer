@@ -21,16 +21,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.sb.core.R
 import com.sb.core.composable.ClickableIcon
 import com.sb.core.composable.Launched
 import com.sb.core.composable.Loading
 import com.sb.core.composable.MessagesHandler
+import com.sb.core.composable.Preview
 import com.sb.core.resources.AppRes
 import com.sb.core.resources.theme.ColorUiType
-import com.sb.core.resources.theme.EqualizerTheme
 import com.sb.home.presentation.component.HomeComponent
 import com.sb.home.presentation.component.HomeStore
 import com.sb.home.presentation.ui.composable.AudioDeviceDropDownMenu
@@ -168,10 +168,10 @@ private fun HomeScreenContent(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
-private fun HomeScreenPreview() {
-    EqualizerTheme(colorUiType = ColorUiType.DARK) {
+private fun HomeContentPreview() {
+    Preview {
         HomeScreenContent(
             state = HomeStore.State(
                 playing = true,
