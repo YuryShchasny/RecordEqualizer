@@ -11,4 +11,6 @@ class SettingsRepositoryImpl(
 
     override suspend fun saveSettings(settings: Settings) =
         settingsDataSource.saveSettings(settings)
+
+    override suspend fun setFeedbackAlertShown() = settingsDataSource.setFeedbackAlertShown()
 }

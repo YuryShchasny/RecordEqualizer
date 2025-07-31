@@ -3,6 +3,7 @@ package com.sb.data.local.datasource
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
@@ -31,6 +32,7 @@ class SettingsDataSource(
                 prefs[SETTINGS_SELECTED_INPUT_DEVICE] = value.selectedInputDevice
                 prefs[SETTINGS_SELECTED_OUTPUT_DEVICE] = value.selectedOutputDevice
                 prefs[SETTINGS_THEME] = value.theme.name
+                prefs[SETTINGS_ALERT_SHOWN] = value.feedbackAlertShown
             }
         }
     }
@@ -44,7 +46,8 @@ class SettingsDataSource(
                     selectedOutputDevice = prefs[SETTINGS_SELECTED_OUTPUT_DEVICE] ?: -1,
                     theme = Settings.Theme.valueOf(
                         prefs[SETTINGS_THEME] ?: Settings.Theme.DARK.name
-                    )
+                    ),
+                    feedbackAlertShown = prefs[SETTINGS_ALERT_SHOWN] ?: false
                 )
             }
         flow.firstOrNull() ?: Settings()
@@ -58,10 +61,19 @@ class SettingsDataSource(
         }
     }
 
+    suspend fun setFeedbackAlertShown() {
+        withContext(Dispatchers.IO) {
+            dataStore.edit { prefs ->
+                prefs[SETTINGS_ALERT_SHOWN] = true
+            }
+        }
+    }
+
     companion object {
         val SETTINGS_SELECTED_PROFILE = longPreferencesKey("settings_selected_profile")
         val SETTINGS_SELECTED_INPUT_DEVICE = intPreferencesKey("settings_selected_input_device")
         val SETTINGS_SELECTED_OUTPUT_DEVICE = intPreferencesKey("settings_selected_output_device")
         val SETTINGS_THEME = stringPreferencesKey("settings_theme")
+        val SETTINGS_ALERT_SHOWN = booleanPreferencesKey("settings_alert_shown")
     }
 }

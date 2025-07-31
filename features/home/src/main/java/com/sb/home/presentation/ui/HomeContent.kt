@@ -34,6 +34,7 @@ import com.sb.core.resources.theme.EqualizerTheme
 import com.sb.home.presentation.component.HomeComponent
 import com.sb.home.presentation.component.HomeStore
 import com.sb.home.presentation.ui.composable.AudioDeviceDropDownMenu
+import com.sb.home.presentation.ui.composable.FeedbackAlert
 import com.sb.home.presentation.ui.composable.PlayButtons
 import com.sb.home.presentation.ui.composable.Waveform
 
@@ -53,6 +54,13 @@ fun HomeContent(
         )
         Launched {
             component.homeStore.initListener()
+        }
+        if(it.showFeedbackAlert) {
+            FeedbackAlert(
+                onDismissRequest = {
+                    component.homeStore.dispatchIntent(HomeStore.Intent.CloseFeedbackAlert)
+                }
+            )
         }
     } ?: Loading()
     MessagesHandler(

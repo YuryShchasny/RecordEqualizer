@@ -12,6 +12,7 @@ import androidx.compose.runtime.Immutable
 import com.sb.audio_processor.AudioEngine
 import com.sb.audio_processor.JNICallback
 import com.sb.core.base.BaseStore
+import com.sb.domain.repository.SettingsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -32,6 +33,8 @@ class HomeStore : BaseStore() {
     private val context by inject<Context>()
 
     private val audioEngine by inject<AudioEngine>()
+
+    private val settingsRepository: SettingsRepository by inject()
 
     private var _uiState = MutableStateFlow<State?>(null)
     val state = _uiState.asStateFlow()
@@ -59,6 +62,7 @@ class HomeStore : BaseStore() {
                 inputDevices = inputDevices.toList(),
                 outputDevices = outputDevices.toList()
             )
+            getFeedbackAlert()
             setListener()
         }
     }
@@ -76,6 +80,7 @@ class HomeStore : BaseStore() {
                 is Intent.SelectOutputDevice -> selectOutputDevice(intent.deviceInfo)
                 Intent.ListenClick -> startListening()
                 Intent.RecordClick -> startRecording()
+                Intent.CloseFeedbackAlert -> _uiState.update { it?.copy(showFeedbackAlert = false) }
             }
         }
     }
@@ -156,6 +161,12 @@ class HomeStore : BaseStore() {
                 outputDevices = outputDevices
             )
         }
+    }
+
+    private suspend fun getFeedbackAlert() {
+        val showFeedbackAlert = !settingsRepository.getSettings().feedbackAlertShown
+        if(showFeedbackAlert) settingsRepository.setFeedbackAlertShown()
+        _uiState.update { it?.copy(showFeedbackAlert = showFeedbackAlert) }
     }
 
     private fun setListener() {
@@ -278,6 +289,7 @@ class HomeStore : BaseStore() {
     data class State(
         val playing: Boolean = false,
         val recordMode: Boolean = false,
+        val showFeedbackAlert: Boolean = false,
         val selectedInputDevice: AudioDeviceInfo? = null,
         val selectedOutputDevice: AudioDeviceInfo? = null,
         val inputDevices: List<AudioDeviceInfo> = emptyList(),
@@ -288,6 +300,7 @@ class HomeStore : BaseStore() {
     sealed interface Intent {
         data object ListenClick : Intent
         data object RecordClick : Intent
+        data object CloseFeedbackAlert: Intent
         data class SelectInputDevice(val deviceInfo: AudioDeviceInfo) : Intent
         data class SelectOutputDevice(val deviceInfo: AudioDeviceInfo) : Intent
     }
