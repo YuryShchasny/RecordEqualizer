@@ -18,4 +18,6 @@ interface AudioEngine {
     suspend fun setProfile(profile: Profile)
     suspend fun addAudioDataListener(callback: JNICallback)
     suspend fun enableCompressor(enabled: Boolean)
+    suspend fun mutePlayback(enable: Boolean)
+    suspend fun muteRecord(enable: Boolean)
 }

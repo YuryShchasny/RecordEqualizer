@@ -81,6 +81,8 @@ class HomeStore : BaseStore() {
                 Intent.ListenClick -> startListening()
                 Intent.RecordClick -> startRecording()
                 Intent.CloseFeedbackAlert -> _uiState.update { it?.copy(showFeedbackAlert = false) }
+                Intent.MutePlayback -> state.value?.playbackMuted?.let { changeMutePlayback(!it) }
+                Intent.MuteRecord -> state.value?.recordMuted?.let { changeMuteRecord(!it) }
             }
         }
     }
@@ -279,6 +281,24 @@ class HomeStore : BaseStore() {
         }
     }
 
+    private suspend fun changeMutePlayback(value: Boolean) {
+        _uiState.update {
+            it?.copy(
+                playbackMuted = value
+            )
+        }
+        audioEngine.mutePlayback(enable = value)
+    }
+
+    private suspend fun changeMuteRecord(value: Boolean) {
+        _uiState.update {
+            it?.copy(
+                recordMuted = value
+            )
+        }
+        audioEngine.muteRecord(value)
+    }
+
     companion object {
         private const val INTERNAL_DIRECTORY = "records"
         private const val EXTERNAL_DIRECTORY = "/RecordEqualizer/"
@@ -295,12 +315,16 @@ class HomeStore : BaseStore() {
         val inputDevices: List<AudioDeviceInfo> = emptyList(),
         val outputDevices: List<AudioDeviceInfo> = emptyList(),
         val streamAmplitudes: List<Float> = emptyList(),
+        val recordMuted: Boolean = false,
+        val playbackMuted: Boolean = false,
     )
 
     sealed interface Intent {
         data object ListenClick : Intent
         data object RecordClick : Intent
         data object CloseFeedbackAlert: Intent
+        data object MuteRecord: Intent
+        data object MutePlayback: Intent
         data class SelectInputDevice(val deviceInfo: AudioDeviceInfo) : Intent
         data class SelectOutputDevice(val deviceInfo: AudioDeviceInfo) : Intent
     }

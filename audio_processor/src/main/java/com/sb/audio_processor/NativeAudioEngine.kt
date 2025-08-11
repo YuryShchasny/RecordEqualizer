@@ -163,6 +163,14 @@ class NativeAudioEngine(context: Context) : AudioEngine {
         }
     }
 
+    override suspend fun mutePlayback(enable: Boolean) {
+
+    }
+
+    override suspend fun muteRecord(enable: Boolean) {
+
+    }
+
     private fun setDefaultStreamValues(context: Context) {
         val myAudioMgr = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         val sampleRateStr = myAudioMgr.getProperty(AudioManager.PROPERTY_OUTPUT_SAMPLE_RATE)

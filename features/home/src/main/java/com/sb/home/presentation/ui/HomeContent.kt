@@ -134,18 +134,18 @@ private fun HomeScreenContent(
                     selectedDevice = state.selectedInputDevice,
                     devices = state.inputDevices,
                     label = stringResource(R.string.record_device),
-                    muted = false,
+                    muted = state.recordMuted,
                     onSelected = { dispatchIntent(HomeStore.Intent.SelectInputDevice(it)) },
-                    onChangeMute = {}
+                    onChangeMute = { dispatchIntent(HomeStore.Intent.MuteRecord) }
                 )
                 AudioDeviceDropDownMenu(
                     modifier = Modifier.fillMaxWidth(),
                     selectedDevice = state.selectedOutputDevice,
                     devices = state.outputDevices,
                     label = stringResource(R.string.playback_device),
-                    muted = false,
+                    muted = state.playbackMuted,
                     onSelected = { dispatchIntent(HomeStore.Intent.SelectOutputDevice(it)) },
-                    onChangeMute = {}
+                    onChangeMute = { dispatchIntent(HomeStore.Intent.MutePlayback) }
                 )
             }
             Waveform(
