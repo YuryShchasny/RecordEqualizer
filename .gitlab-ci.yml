@@ -13,8 +13,6 @@ stages:
 
 variables:
   PROJECT_NAME: RecordEqualizer
-  TELEGRAM_BOT_TOKEN: 7229201321:AAE4iukTbBGtx7GkgFGTb-FkiPTzkJjFtRo
-  TELEGRAM_CHAT_ID: 981218070
 
 assembleApplication:
   stage: build
@@ -28,11 +26,4 @@ assembleApplication:
     paths:
       - app/build/outputs/apk/debug/Debug_$PROJECT_NAME.apk
       - app/build/outputs/apk/release/Release_$PROJECT_NAME.apk
-  after_script:
-    - |
-      MESSAGE="$CI_COMMIT_MESSAGE"
-      curl -s -X POST https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage -d "chat_id=$TELEGRAM_CHAT_ID" -d "text=$MESSAGE"
-
-      curl -F chat_id=$TELEGRAM_CHAT_ID -F document=@app/build/outputs/apk/debug/Debug_$PROJECT_NAME.apk -F text=MESSAGE -H "Content-Type: multipart/form-data" -X POST https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendDocument
-      curl -F chat_id=$TELEGRAM_CHAT_ID -F document=@app/build/outputs/apk/release/Release_$PROJECT_NAME.apk -F text=MESSAGE -H "Content-Type: multipart/form-data" -X POST https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendDocument
 
