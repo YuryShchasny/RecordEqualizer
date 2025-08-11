@@ -8,12 +8,14 @@
       width="33%" />
 </a>
 
----
+####
 
-<p align="center">
+<p align="center" >
    <img src="https://img.shields.io/badge/Platform-Android-green.svg")>
    <img src="https://img.shields.io/badge/Verison-1.1.0-blue.svg")>
 </p>
+
+---
 
 ## 🎧 About
 
@@ -32,6 +34,7 @@ It is built using [Oboe](https://github.com/google/oboe) — a high-performance 
   - Sample rate: **48000 Hz**
   - Bit depth: **16-bit**
   - Channels: **Stereo**
+
 ---
 
 ## 📱 Screenshots
@@ -39,6 +42,8 @@ It is built using [Oboe](https://github.com/google/oboe) — a high-performance 
 <img src="https://i.ibb.co/NgrwQGrF/Screenshot-20250811-140354.png" width="32%" >
 <img src="https://i.ibb.co/kgdx3XdG/Screenshot-20250811-140427.png" width="32%" >
 <img src="https://i.ibb.co/bj8vMsXJ/Screenshot-20250811-140258.png" width="32%" >
+
+---
 
 ## 🚀 Distribute
 
