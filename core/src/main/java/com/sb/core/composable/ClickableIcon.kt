@@ -29,10 +29,9 @@ fun ClickableIcon(
                     bounded = false,
                     color = AppRes.colors.primary
                 ),
-                interactionSource = null
-            ) {
-                onClick()
-            },
+                interactionSource = null,
+                onClick = onClick
+            ),
         imageVector = imageVector,
         contentDescription = null,
         tint = tint
