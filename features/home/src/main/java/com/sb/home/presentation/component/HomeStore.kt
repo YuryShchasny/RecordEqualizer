@@ -138,6 +138,13 @@ class HomeStore : BaseStore() {
                     selectedOutputDevice = deviceInfo
                 )
             }
+            settingsRepository.getSettings().let {
+                settingsRepository.saveSettings(
+                    it.copy(
+                        selectedOutputDevice = deviceInfo.id
+                    )
+                )
+            }
         }
     }
 
@@ -151,26 +158,35 @@ class HomeStore : BaseStore() {
                     selectedInputDevice = deviceInfo
                 )
             }
+            settingsRepository.getSettings().let {
+                settingsRepository.saveSettings(
+                    it.copy(
+                        selectedInputDevice = deviceInfo.id
+                    )
+                )
+            }
         }
     }
 
-    private fun setDevices(
+    private suspend fun setDevices(
         inputDevices: List<AudioDeviceInfo>,
         outputDevices: List<AudioDeviceInfo>
     ) {
+        val settings = settingsRepository.getSettings()
         _uiState.update {
             State(
                 inputDevices = inputDevices,
-                outputDevices = outputDevices
+                outputDevices = outputDevices,
+                selectedInputDevice = inputDevices.firstOrNull { it.id == settings.selectedInputDevice },
+                selectedOutputDevice = outputDevices.firstOrNull { it.id == settings.selectedOutputDevice }
             )
         }
     }
 
     private suspend fun setDevicesMute() {
-        val playbackMuted = false
-        val recordMuted = false
-        changeMutePlayback(playbackMuted)
-        changeMuteRecord(recordMuted)
+        val settings = settingsRepository.getSettings()
+        changeMutePlayback(settings.playbackMuted)
+        changeMuteRecord(settings.recordMuted)
     }
 
     private suspend fun getFeedbackAlert() {
@@ -296,6 +312,13 @@ class HomeStore : BaseStore() {
             )
         }
         audioEngine.mutePlayback(enabled = value)
+        settingsRepository.getSettings().let {
+            settingsRepository.saveSettings(
+                it.copy(
+                    playbackMuted = value
+                )
+            )
+        }
     }
 
     private suspend fun changeMuteRecord(value: Boolean) {
@@ -305,6 +328,13 @@ class HomeStore : BaseStore() {
             )
         }
         audioEngine.muteRecord(enabled = value)
+        settingsRepository.getSettings().let {
+            settingsRepository.saveSettings(
+                it.copy(
+                    recordMuted = value
+                )
+            )
+        }
     }
 
     companion object {
