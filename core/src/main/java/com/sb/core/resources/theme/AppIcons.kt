@@ -10,6 +10,8 @@ import com.sb.core.resources.icons.PlayIcon
 import com.sb.core.resources.icons.SlidersUpIcon
 import com.sb.core.resources.icons.SunIcon
 import com.sb.core.resources.icons.TrashIcon
+import com.sb.core.resources.icons.VolumeOff
+import com.sb.core.resources.icons.VolumeOn
 
 @Immutable
 data class AppIcons(
@@ -19,7 +21,9 @@ data class AppIcons(
     val moon: ImageVector = MoonIcon,
     val sun: ImageVector = SunIcon,
     val save: ImageVector = FloppyDiskIcon,
-    val trash: ImageVector = TrashIcon
+    val trash: ImageVector = TrashIcon,
+    val volumeOn: ImageVector = VolumeOn,
+    val volumeOff: ImageVector = VolumeOff,
 )
 
 val baseAppIcons = AppIcons()
