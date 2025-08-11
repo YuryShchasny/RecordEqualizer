@@ -157,6 +157,7 @@ Result AudioEngine::closeStream(std::shared_ptr<oboe::AudioStream> &stream) {
         stream.reset();
         return result;
     }
+    return Result::ErrorNull;
 }
 
 void AudioEngine::warnIfNotLowLatency(std::shared_ptr<oboe::AudioStream> &stream) {
