@@ -214,4 +214,24 @@ Java_com_sb_audio_1processor_NativeAudioEngine_nativeEnableCompressor(JNIEnv *en
     }
     engine->enableCompressor(enabled);
 }
+
+JNIEXPORT void JNICALL
+Java_com_sb_audio_1processor_NativeAudioEngine_nativeMuteRecord(JNIEnv *env, jobject thiz,
+                                                                jboolean enabled) {
+    if (engine == nullptr) {
+        LOGD("Engine is null, you must call createEngine before calling nativeMuteRecord method");
+        return;
+    }
+    engine->muteRecord(enabled);
+}
+
+JNIEXPORT void JNICALL
+Java_com_sb_audio_1processor_NativeAudioEngine_nativeMutePlayback(JNIEnv *env, jobject thiz,
+                                                                jboolean enabled) {
+    if (engine == nullptr) {
+        LOGD("Engine is null, you must call createEngine before calling nativeMutePlayback method");
+        return;
+    }
+    engine->mutePlayback(enabled);
+}
 }

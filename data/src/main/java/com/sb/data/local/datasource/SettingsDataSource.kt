@@ -31,6 +31,8 @@ class SettingsDataSource(
                 prefs[SETTINGS_SELECTED_PROFILE] = value.selectedProfileId
                 prefs[SETTINGS_SELECTED_INPUT_DEVICE] = value.selectedInputDevice
                 prefs[SETTINGS_SELECTED_OUTPUT_DEVICE] = value.selectedOutputDevice
+                prefs[SETTINGS_RECORD_MUTED] = value.recordMuted
+                prefs[SETTINGS_PLAYBACK_MUTED] = value.playbackMuted
                 prefs[SETTINGS_THEME] = value.theme.name
                 prefs[SETTINGS_ALERT_SHOWN] = value.feedbackAlertShown
             }
@@ -44,6 +46,8 @@ class SettingsDataSource(
                     selectedProfileId = prefs[SETTINGS_SELECTED_PROFILE] ?: -1,
                     selectedInputDevice = prefs[SETTINGS_SELECTED_INPUT_DEVICE] ?: -1,
                     selectedOutputDevice = prefs[SETTINGS_SELECTED_OUTPUT_DEVICE] ?: -1,
+                    recordMuted = prefs[SETTINGS_RECORD_MUTED] ?: false,
+                    playbackMuted = prefs[SETTINGS_PLAYBACK_MUTED] ?: false,
                     theme = Settings.Theme.valueOf(
                         prefs[SETTINGS_THEME] ?: Settings.Theme.DARK.name
                     ),
@@ -73,6 +77,8 @@ class SettingsDataSource(
         val SETTINGS_SELECTED_PROFILE = longPreferencesKey("settings_selected_profile")
         val SETTINGS_SELECTED_INPUT_DEVICE = intPreferencesKey("settings_selected_input_device")
         val SETTINGS_SELECTED_OUTPUT_DEVICE = intPreferencesKey("settings_selected_output_device")
+        val SETTINGS_RECORD_MUTED = booleanPreferencesKey("settings_record_muted")
+        val SETTINGS_PLAYBACK_MUTED = booleanPreferencesKey("settings_playback_muted")
         val SETTINGS_THEME = stringPreferencesKey("settings_theme")
         val SETTINGS_ALERT_SHOWN = booleanPreferencesKey("settings_alert_shown")
     }
