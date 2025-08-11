@@ -6,16 +6,19 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sb.core.R
+import com.sb.core.composable.Preview
 import com.sb.core.resources.AppRes
-import com.sb.core.resources.theme.ColorUiType
-import com.sb.core.resources.theme.EqualizerTheme
 
 @Composable
 fun ChannelCheckboxes(
@@ -80,15 +83,17 @@ fun ChannelCheckboxes(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun ChannelCheckboxesPreview() {
-    EqualizerTheme(colorUiType = ColorUiType.DARK) {
+    var left by remember { mutableStateOf(false) }
+    var right by remember { mutableStateOf(true) }
+    Preview {
         ChannelCheckboxes(
-            rightChannel = true,
-            leftChannel = false,
-            onLeftChannelChanged = {},
-            onRightChannelChanged = {}
+            rightChannel = right,
+            leftChannel = left,
+            onLeftChannelChanged = { left = !left },
+            onRightChannelChanged = { right = !right }
         )
     }
 }

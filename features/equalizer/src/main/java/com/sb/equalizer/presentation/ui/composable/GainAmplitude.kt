@@ -7,21 +7,24 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sb.core.R
+import com.sb.core.composable.Preview
 import com.sb.core.resources.AppRes
-import com.sb.core.resources.theme.ColorUiType
-import com.sb.core.resources.theme.EqualizerTheme
 
 @Composable
 fun GainAmplitude(
     value: Float,
-    onValueChanged: (Float) -> Unit,
+    onValueChange: (Float) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(4.dp)) {
@@ -45,7 +48,7 @@ fun GainAmplitude(
             CustomSlider(
                 modifier = Modifier.weight(1f),
                 value = value,
-                onValueChanged = onValueChanged,
+                onValueChange = onValueChange,
                 valueRange = -10f..10f,
                 orientation = Orientation.Horizontal,
             )
@@ -59,13 +62,14 @@ fun GainAmplitude(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun GainAmplitudePreview() {
-    EqualizerTheme(colorUiType = ColorUiType.DARK) {
+    var value by remember { mutableFloatStateOf(0f) }
+    Preview {
         GainAmplitude(
-            value = 0f,
-            onValueChanged = {}
+            value = value,
+            onValueChange = { value = it }
         )
     }
 }

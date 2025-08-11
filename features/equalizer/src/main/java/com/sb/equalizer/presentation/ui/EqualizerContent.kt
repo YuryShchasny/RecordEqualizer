@@ -20,13 +20,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.sb.core.composable.ClickableIcon
 import com.sb.core.composable.Loading
+import com.sb.core.composable.Preview
 import com.sb.core.resources.AppRes
-import com.sb.core.resources.theme.ColorUiType
-import com.sb.core.resources.theme.EqualizerTheme
 import com.sb.domain.entity.Profile
 import com.sb.equalizer.presentation.component.EqualizerComponent
 import com.sb.equalizer.presentation.component.EqualizerStore
@@ -122,7 +121,7 @@ private fun EqualizerScreenContent(
             GainAmplitude(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 value = state.amplitude,
-                onValueChanged = { dispatchIntent(EqualizerStore.Intent.AmplitudeGainChanged(it)) }
+                onValueChange = { dispatchIntent(EqualizerStore.Intent.AmplitudeGainChanged(it)) }
             )
             ChannelCheckboxes(
                 modifier = Modifier
@@ -144,22 +143,25 @@ private fun EqualizerScreenContent(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
-fun EqualizerContentPreview(modifier: Modifier = Modifier) {
-    EqualizerTheme(colorUiType = ColorUiType.DARK) {
+private fun EqualizerContentPreview() {
+    Preview {
         EqualizerScreenContent(
             state = EqualizerStore.State(
-                selectedProfile = Profile(
-                    id = 0,
-                    name = "",
-                    gains = listOf(),
-                    amplitude = 0f,
-                    leftChannel = false,
-                    rightChannel = true,
-                    compressorEnabled = true
+                selectedProfile = Profile.preview(),
+                frequencies = listOf(
+                    31 to 10f,
+                    63 to 8f,
+                    125 to 6f,
+                    250 to 4f,
+                    500 to 2f,
+                    1000 to 0f,
+                    2000 to -2f,
+                    4000 to -4f,
+                    8000 to -6f,
+                    16000 to -8f
                 ),
-                frequencies = listOf(),
                 amplitude = 0f,
                 leftChannelEnabled = false,
                 rightChannelEnabled = true,

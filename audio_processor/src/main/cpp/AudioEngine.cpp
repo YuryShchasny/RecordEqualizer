@@ -104,6 +104,8 @@ Result AudioEngine::openStreams(bool withRecording) {
     if (withRecording) {
         mDuplexStream->setRecording(true);
     }
+    mDuplexStream->setRecordMute(mRecordMuted);
+    mDuplexStream->setPlaybackMute(mPlaybackMuted);
     mDuplexStream->start();
     return result;
 }
@@ -112,6 +114,7 @@ Result AudioEngine::openStreams(bool withRecording) {
 AudioStreamBuilder *AudioEngine::setupRecordingStreamParameters(
         oboe::AudioStreamBuilder *builder, int32_t sampleRate) {
     builder->setDeviceId(mRecordingDeviceId)
+            ->setInputPreset(InputPreset::VoiceCommunication)
             ->setDirection(oboe::Direction::Input)
             ->setSampleRate(sampleRate)
             ->setChannelCount(mChannelCount);
@@ -154,6 +157,7 @@ Result AudioEngine::closeStream(std::shared_ptr<oboe::AudioStream> &stream) {
         stream.reset();
         return result;
     }
+    return Result::ErrorNull;
 }
 
 void AudioEngine::warnIfNotLowLatency(std::shared_ptr<oboe::AudioStream> &stream) {
@@ -250,5 +254,19 @@ void AudioEngine::enableCompressor(bool enabled) {
         if (it != mEffects->end()) {
             mEffects->erase(it);
         }
+    }
+}
+
+void AudioEngine::mutePlayback(bool enabled) {
+    mPlaybackMuted = enabled;
+    if(mDuplexStream) {
+        mDuplexStream->setPlaybackMute(enabled);
+    }
+}
+
+void AudioEngine::muteRecord(bool enabled) {
+    mRecordMuted = enabled;
+    if(mDuplexStream) {
+        mDuplexStream->setRecordMute(enabled);
     }
 }

@@ -45,3 +45,4 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
         log
         oboe::oboe
 )
+add_link_options("-Wl,--build-id=none")

@@ -12,12 +12,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.sb.core.R
+import com.sb.core.composable.Preview
 import com.sb.core.resources.AppRes
 
 @Composable
@@ -55,4 +60,16 @@ fun RecordButton(
             }
         }
     )
+}
+
+@PreviewLightDark
+@Composable
+private fun RecordButtonPreview() {
+    var isPlaying by remember { mutableStateOf(false) }
+    Preview {
+        RecordButton(
+            isPlaying = isPlaying,
+            onClick = { isPlaying = !isPlaying }
+        )
+    }
 }

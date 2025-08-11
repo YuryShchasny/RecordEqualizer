@@ -21,19 +21,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.sb.core.R
 import com.sb.core.composable.ClickableIcon
 import com.sb.core.composable.Launched
 import com.sb.core.composable.Loading
 import com.sb.core.composable.MessagesHandler
+import com.sb.core.composable.Preview
 import com.sb.core.resources.AppRes
 import com.sb.core.resources.theme.ColorUiType
-import com.sb.core.resources.theme.EqualizerTheme
 import com.sb.home.presentation.component.HomeComponent
 import com.sb.home.presentation.component.HomeStore
 import com.sb.home.presentation.ui.composable.AudioDeviceDropDownMenu
+import com.sb.home.presentation.ui.composable.FeedbackAlert
 import com.sb.home.presentation.ui.composable.PlayButtons
 import com.sb.home.presentation.ui.composable.Waveform
 
@@ -53,6 +54,13 @@ fun HomeContent(
         )
         Launched {
             component.homeStore.initListener()
+        }
+        if(it.showFeedbackAlert) {
+            FeedbackAlert(
+                onDismissRequest = {
+                    component.homeStore.dispatchIntent(HomeStore.Intent.CloseFeedbackAlert)
+                }
+            )
         }
     } ?: Loading()
     MessagesHandler(
@@ -126,14 +134,18 @@ private fun HomeScreenContent(
                     selectedDevice = state.selectedInputDevice,
                     devices = state.inputDevices,
                     label = stringResource(R.string.record_device),
-                    onSelected = { dispatchIntent(HomeStore.Intent.SelectInputDevice(it)) }
+                    muted = state.recordMuted,
+                    onSelected = { dispatchIntent(HomeStore.Intent.SelectInputDevice(it)) },
+                    onChangeMute = { dispatchIntent(HomeStore.Intent.MuteRecord) }
                 )
                 AudioDeviceDropDownMenu(
                     modifier = Modifier.fillMaxWidth(),
                     selectedDevice = state.selectedOutputDevice,
                     devices = state.outputDevices,
                     label = stringResource(R.string.playback_device),
-                    onSelected = { dispatchIntent(HomeStore.Intent.SelectOutputDevice(it)) }
+                    muted = state.playbackMuted,
+                    onSelected = { dispatchIntent(HomeStore.Intent.SelectOutputDevice(it)) },
+                    onChangeMute = { dispatchIntent(HomeStore.Intent.MutePlayback) }
                 )
             }
             Waveform(
@@ -160,10 +172,10 @@ private fun HomeScreenContent(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
-private fun HomeScreenPreview() {
-    EqualizerTheme(colorUiType = ColorUiType.DARK) {
+private fun HomeContentPreview() {
+    Preview {
         HomeScreenContent(
             state = HomeStore.State(
                 playing = true,

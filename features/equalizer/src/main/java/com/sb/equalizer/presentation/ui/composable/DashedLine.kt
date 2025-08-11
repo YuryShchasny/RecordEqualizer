@@ -12,8 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sb.core.composable.Preview
 import com.sb.core.resources.AppRes
 
 @Composable
@@ -44,5 +46,13 @@ fun DashedLine(modifier: Modifier = Modifier, label: String = String()) {
                 pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
             )
         }
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun DashedLinePreview() {
+    Preview {
+        DashedLine(label = "10 dB")
     }
 }

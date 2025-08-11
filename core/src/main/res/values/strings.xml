@@ -26,8 +26,11 @@
     <string name="bluetooth_sco">Bluetooth device</string>
     <string name="telephony">Telephony</string>
     <string name="remote_submix">Remote submix</string>
-    <string name="builtin_earpiece">Dynamic</string>
-    <string name="builtin_speaker">The system of dynamics</string>
+    <string name="builtin_earpiece">Speaker</string>
+    <string name="builtin_speaker">The system of speakers</string>
     <string name="bluetooth_a2dp">Bluetooth A2DP device</string>
     <string name="unknown">Unknown type</string>
+    <string name="_continue">Continue</string>
+    <string name="feedback_alert_title">Instant Playback</string>
+    <string name="feedback_alert_text">Voice recorded from the microphone is immediately sent to the playback device (speaker or headphones)</string>
 </resources>

@@ -38,6 +38,14 @@ public:
         }
     }
 
+    void setRecordMute(bool enabled) {
+        mRecordMuted = enabled;
+    }
+
+    void setPlaybackMute(bool enabled) {
+        mPlaybackMuted = enabled;
+    }
+
     virtual oboe::DataCallbackResult
     onBothStreamsReady(
             const void *inputData,
@@ -58,13 +66,23 @@ public:
             int16_t frame[2] = {*input, *(input + 1)};
             input += 2;
 
+            if(mRecordMuted) {
+                frame[0] = 0;
+                frame[1] = 0;
+            }
+
             auto processOut = processFrame(frame);
 
             waveform.push_back(static_cast<float>(processOut[0]) / SHRT_MAX);
             waveform.push_back(static_cast<float>(processOut[1]) / SHRT_MAX);
 
-            *output++ = processOut[0];
-            *output++ = processOut[1];
+            if(mPlaybackMuted) {
+                *output++ = 0;
+                *output++ = 0;
+            } else {
+                *output++ = processOut[0];
+                *output++ = processOut[1];
+            }
 
             if (isRecording && recorder) {
                 recorder->writeFrame(processOut);
@@ -90,6 +108,9 @@ private:
         }
         return frame;
     }
+
+    bool mPlaybackMuted;
+    bool mRecordMuted;
 };
 
 #endif //SAMPLES_FULLDUPLEXPASS_H

@@ -30,4 +30,7 @@
     <string name="builtin_speaker">Система динамиков</string>
     <string name="bluetooth_a2dp">Bluetooth A2DP устройство</string>
     <string name="unknown">Неизвестный тип</string>
+    <string name="_continue">Продолжить</string>
+    <string name="feedback_alert_title">Мгновенное воспроизведение</string>
+    <string name="feedback_alert_text">Голос, записываемый с микрофона, немедленно передается на устройство воспроизведения (динамик или наушники)</string>
 </resources>

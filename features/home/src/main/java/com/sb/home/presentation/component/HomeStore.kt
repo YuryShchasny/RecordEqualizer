@@ -12,6 +12,7 @@ import androidx.compose.runtime.Immutable
 import com.sb.audio_processor.AudioEngine
 import com.sb.audio_processor.JNICallback
 import com.sb.core.base.BaseStore
+import com.sb.domain.repository.SettingsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -32,6 +33,8 @@ class HomeStore : BaseStore() {
     private val context by inject<Context>()
 
     private val audioEngine by inject<AudioEngine>()
+
+    private val settingsRepository: SettingsRepository by inject()
 
     private var _uiState = MutableStateFlow<State?>(null)
     val state = _uiState.asStateFlow()
@@ -59,7 +62,9 @@ class HomeStore : BaseStore() {
                 inputDevices = inputDevices.toList(),
                 outputDevices = outputDevices.toList()
             )
+            getFeedbackAlert()
             setListener()
+            setDevicesMute()
         }
     }
 
@@ -76,6 +81,9 @@ class HomeStore : BaseStore() {
                 is Intent.SelectOutputDevice -> selectOutputDevice(intent.deviceInfo)
                 Intent.ListenClick -> startListening()
                 Intent.RecordClick -> startRecording()
+                Intent.CloseFeedbackAlert -> _uiState.update { it?.copy(showFeedbackAlert = false) }
+                Intent.MutePlayback -> state.value?.playbackMuted?.let { changeMutePlayback(!it) }
+                Intent.MuteRecord -> state.value?.recordMuted?.let { changeMuteRecord(!it) }
             }
         }
     }
@@ -130,6 +138,13 @@ class HomeStore : BaseStore() {
                     selectedOutputDevice = deviceInfo
                 )
             }
+            settingsRepository.getSettings().let {
+                settingsRepository.saveSettings(
+                    it.copy(
+                        selectedOutputDevice = deviceInfo.id
+                    )
+                )
+            }
         }
     }
 
@@ -143,19 +158,41 @@ class HomeStore : BaseStore() {
                     selectedInputDevice = deviceInfo
                 )
             }
+            settingsRepository.getSettings().let {
+                settingsRepository.saveSettings(
+                    it.copy(
+                        selectedInputDevice = deviceInfo.id
+                    )
+                )
+            }
         }
     }
 
-    private fun setDevices(
+    private suspend fun setDevices(
         inputDevices: List<AudioDeviceInfo>,
         outputDevices: List<AudioDeviceInfo>
     ) {
+        val settings = settingsRepository.getSettings()
         _uiState.update {
             State(
                 inputDevices = inputDevices,
-                outputDevices = outputDevices
+                outputDevices = outputDevices,
+                selectedInputDevice = inputDevices.firstOrNull { it.id == settings.selectedInputDevice },
+                selectedOutputDevice = outputDevices.firstOrNull { it.id == settings.selectedOutputDevice }
             )
         }
+    }
+
+    private suspend fun setDevicesMute() {
+        val settings = settingsRepository.getSettings()
+        changeMutePlayback(settings.playbackMuted)
+        changeMuteRecord(settings.recordMuted)
+    }
+
+    private suspend fun getFeedbackAlert() {
+        val showFeedbackAlert = !settingsRepository.getSettings().feedbackAlertShown
+        if (showFeedbackAlert) settingsRepository.setFeedbackAlertShown()
+        _uiState.update { it?.copy(showFeedbackAlert = showFeedbackAlert) }
     }
 
     private fun setListener() {
@@ -268,6 +305,38 @@ class HomeStore : BaseStore() {
         }
     }
 
+    private suspend fun changeMutePlayback(value: Boolean) {
+        _uiState.update {
+            it?.copy(
+                playbackMuted = value
+            )
+        }
+        audioEngine.mutePlayback(enabled = value)
+        settingsRepository.getSettings().let {
+            settingsRepository.saveSettings(
+                it.copy(
+                    playbackMuted = value
+                )
+            )
+        }
+    }
+
+    private suspend fun changeMuteRecord(value: Boolean) {
+        _uiState.update {
+            it?.copy(
+                recordMuted = value
+            )
+        }
+        audioEngine.muteRecord(enabled = value)
+        settingsRepository.getSettings().let {
+            settingsRepository.saveSettings(
+                it.copy(
+                    recordMuted = value
+                )
+            )
+        }
+    }
+
     companion object {
         private const val INTERNAL_DIRECTORY = "records"
         private const val EXTERNAL_DIRECTORY = "/RecordEqualizer/"
@@ -278,16 +347,22 @@ class HomeStore : BaseStore() {
     data class State(
         val playing: Boolean = false,
         val recordMode: Boolean = false,
+        val showFeedbackAlert: Boolean = false,
         val selectedInputDevice: AudioDeviceInfo? = null,
         val selectedOutputDevice: AudioDeviceInfo? = null,
         val inputDevices: List<AudioDeviceInfo> = emptyList(),
         val outputDevices: List<AudioDeviceInfo> = emptyList(),
         val streamAmplitudes: List<Float> = emptyList(),
+        val recordMuted: Boolean = false,
+        val playbackMuted: Boolean = false,
     )
 
     sealed interface Intent {
         data object ListenClick : Intent
         data object RecordClick : Intent
+        data object CloseFeedbackAlert : Intent
+        data object MuteRecord : Intent
+        data object MutePlayback : Intent
         data class SelectInputDevice(val deviceInfo: AudioDeviceInfo) : Intent
         data class SelectOutputDevice(val deviceInfo: AudioDeviceInfo) : Intent
     }
