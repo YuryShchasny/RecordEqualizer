@@ -11,7 +11,7 @@ coreSplashscreen = "1.0.1"
 accompanistSystemuicontroller = "0.36.0"
 oboe = "1.9.3"
 room = "2.7.2"
-ksp = "2.1.21-2.0.2"
+ksp = "2.2.0-2.0.2"
 datastore = "1.1.7"
 
 [libraries]
