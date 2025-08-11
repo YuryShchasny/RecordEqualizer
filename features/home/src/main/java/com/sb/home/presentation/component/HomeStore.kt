@@ -64,6 +64,7 @@ class HomeStore : BaseStore() {
             )
             getFeedbackAlert()
             setListener()
+            setDevicesMute()
         }
     }
 
@@ -165,9 +166,16 @@ class HomeStore : BaseStore() {
         }
     }
 
+    private suspend fun setDevicesMute() {
+        val playbackMuted = false
+        val recordMuted = false
+        changeMutePlayback(playbackMuted)
+        changeMuteRecord(recordMuted)
+    }
+
     private suspend fun getFeedbackAlert() {
         val showFeedbackAlert = !settingsRepository.getSettings().feedbackAlertShown
-        if(showFeedbackAlert) settingsRepository.setFeedbackAlertShown()
+        if (showFeedbackAlert) settingsRepository.setFeedbackAlertShown()
         _uiState.update { it?.copy(showFeedbackAlert = showFeedbackAlert) }
     }
 
@@ -287,7 +295,7 @@ class HomeStore : BaseStore() {
                 playbackMuted = value
             )
         }
-        audioEngine.mutePlayback(enable = value)
+        audioEngine.mutePlayback(enabled = value)
     }
 
     private suspend fun changeMuteRecord(value: Boolean) {
@@ -296,7 +304,7 @@ class HomeStore : BaseStore() {
                 recordMuted = value
             )
         }
-        audioEngine.muteRecord(value)
+        audioEngine.muteRecord(enabled = value)
     }
 
     companion object {
@@ -322,9 +330,9 @@ class HomeStore : BaseStore() {
     sealed interface Intent {
         data object ListenClick : Intent
         data object RecordClick : Intent
-        data object CloseFeedbackAlert: Intent
-        data object MuteRecord: Intent
-        data object MutePlayback: Intent
+        data object CloseFeedbackAlert : Intent
+        data object MuteRecord : Intent
+        data object MutePlayback : Intent
         data class SelectInputDevice(val deviceInfo: AudioDeviceInfo) : Intent
         data class SelectOutputDevice(val deviceInfo: AudioDeviceInfo) : Intent
     }

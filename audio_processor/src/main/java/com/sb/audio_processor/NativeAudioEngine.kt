@@ -45,6 +45,8 @@ class NativeAudioEngine(context: Context) : AudioEngine {
     private external fun nativeChangeRightChannel(enabled: Boolean)
     private external fun nativeAddListener(callback: JNICallback)
     private external fun nativeEnableCompressor(enabled: Boolean)
+    private external fun nativeMuteRecord(enabled: Boolean)
+    private external fun nativeMutePlayback(enabled: Boolean)
 
     init {
         setDefaultStreamValues(context)
@@ -163,12 +165,16 @@ class NativeAudioEngine(context: Context) : AudioEngine {
         }
     }
 
-    override suspend fun mutePlayback(enable: Boolean) {
-
+    override suspend fun mutePlayback(enabled: Boolean) {
+        mutex.withLock {
+            nativeMutePlayback(enabled)
+        }
     }
 
-    override suspend fun muteRecord(enable: Boolean) {
-
+    override suspend fun muteRecord(enabled: Boolean) {
+        mutex.withLock {
+            nativeMuteRecord(enabled)
+        }
     }
 
     private fun setDefaultStreamValues(context: Context) {

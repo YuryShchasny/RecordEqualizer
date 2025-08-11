@@ -33,6 +33,10 @@ public:
 
     void changeRightChannel(bool enabled);
 
+    void mutePlayback(bool enabled);
+
+    void muteRecord(bool enabled);
+
     void setAudioDataCallback(std::function<void(std::vector<float>)> callback);
 
     void play(bool withRecord);
@@ -54,6 +58,8 @@ public:
 
 private:
     bool mIsPlaying = false;
+    bool mRecordMuted = false;
+    bool mPlaybackMuted = false;
     int32_t mRecordingDeviceId = oboe::kUnspecified;
     int32_t mPlaybackDeviceId = oboe::kUnspecified;
     const oboe::AudioFormat mFormat = oboe::AudioFormat::I16;

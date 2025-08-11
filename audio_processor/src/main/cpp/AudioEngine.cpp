@@ -104,6 +104,8 @@ Result AudioEngine::openStreams(bool withRecording) {
     if (withRecording) {
         mDuplexStream->setRecording(true);
     }
+    mDuplexStream->setRecordMute(mRecordMuted);
+    mDuplexStream->setPlaybackMute(mPlaybackMuted);
     mDuplexStream->start();
     return result;
 }
@@ -251,5 +253,19 @@ void AudioEngine::enableCompressor(bool enabled) {
         if (it != mEffects->end()) {
             mEffects->erase(it);
         }
+    }
+}
+
+void AudioEngine::mutePlayback(bool enabled) {
+    mPlaybackMuted = enabled;
+    if(mDuplexStream) {
+        mDuplexStream->setPlaybackMute(enabled);
+    }
+}
+
+void AudioEngine::muteRecord(bool enabled) {
+    mRecordMuted = enabled;
+    if(mDuplexStream) {
+        mDuplexStream->setRecordMute(enabled);
     }
 }
