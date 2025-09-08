@@ -5,8 +5,8 @@ plugins {
 
 android {
     namespace = "com.sb.audio_processor"
-    compileSdk = 35
-
+    compileSdk = 36
+    ndkVersion = "29.0.14033849"
     defaultConfig {
         minSdk = 28
         consumerProguardFiles("consumer-rules.pro")
