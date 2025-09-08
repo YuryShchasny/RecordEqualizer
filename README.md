@@ -7,6 +7,11 @@
        src="https://i.ibb.co/Kp3M30FB/Get-It-On-Google-Play-Badge-Web-color-English.png"
       width="33%" />
 </a>
+<a href="https://apt.izzysoft.de/packages/com.sb.recordequalizer">
+  <img alt="Get it at IzzyOnDroid"
+       src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroidButtonGreyBorder_nofont.png"
+       width="33%" />
+</a>
 
 ####
 

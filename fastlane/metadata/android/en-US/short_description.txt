@@ -1,0 +1,1 @@
+record audio from the microphone and adjust it using the equalizer
